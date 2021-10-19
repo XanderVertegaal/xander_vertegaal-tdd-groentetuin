@@ -18,15 +18,15 @@ const getYieldForPlant = (plant, envFactors = {nochange: 0}) => {
 }
 
 
-const getYieldForCrop = (cropGroup, environmentFactors) => {
-    return cropGroup.numCrops * getYieldForPlant(cropGroup.crop, environmentFactors);
+const getYieldForCrop = (cropGroup, envFactors) => {
+    return cropGroup.numCrops * getYieldForPlant(cropGroup.crop, envFactors);
 }
 
-const getTotalYield = (outerObjCrops, environmentFactors) => { // Argument is an array with crop objects; called as ({array})
+const getTotalYield = (outerObjCrops, envFactors) => { // Argument is an array with crop objects; called as ({array})
     const arrCrops = outerObjCrops.crops    
     let totalYield = 0
     for (let crop of arrCrops) {
-        totalYield += getYieldForCrop(crop, environmentFactors)
+        totalYield += getYieldForCrop(crop, envFactors)
     }
     return totalYield;
 }
@@ -35,12 +35,12 @@ const getCostsForCrop = crop => {
     return crop.crop.seedPrice * crop.numCrops;
 }
 
-const getRevenueForCrop = (crop, environmentalFactors) => {
-    return crop.crop.salePrice * getYieldForCrop(crop, environmentalFactors);
+const getRevenueForCrop = (crop, envFactors) => {
+    return crop.crop.salePrice * getYieldForCrop(crop, envFactors);
 }
 
-const getProfitForCrop = crop => {
-    return getRevenueForCrop(crop) - getCostsForCrop(crop);
+const getProfitForCrop = (crop, envFactors) => {
+    return getRevenueForCrop(crop, envFactors) - getCostsForCrop(crop);
 }
 
 const getTotalProfit = cropArray => {

@@ -254,28 +254,41 @@ describe('Revenue for crop', () => {
             numCrops: 10
         }
 
-        let environmentFactors = {
+        let envFactors = {
             sun: 'high',
             soil: 'medium'
         }
-        expect(getRevenueForCrop(crop, environmentFactors)).toBe(135)
+        expect(getRevenueForCrop(crop, envFactors)).toBe(135)
     });
-
-
 })
 
 describe('Profit for crop', () => {
     let aubergine = {
         name: "aubergine",
-        yield: 5,
+        yield: 3,
+        salePrice: 3,
         seedPrice: 2,
-        salePrice: 3
-    };
+        factors: {
+          sun: {
+            low: -50,
+            medium: 0,
+            high: 50,
+          },
+          wind: {
+            low: -20,
+            medium: 10,
+            high: 30
+          }
+        }
+      };
 
-    let crop = { crop: aubergine, numCrops: 10}
+    let crop = { 
+        crop: aubergine,
+        numCrops: 10
+    }
 
-    test("30 revenue and 20 loss > 10 profit", () => {
-        expect(getProfitForCrop(crop)).toBe(10);
+    test("90 profits - 20 loss amounts to 70 profit", () => {
+        expect(getProfitForCrop(crop)).toBe(70);
     });
 
     test("Free seeds, free crops > no loss or profit", () => {
@@ -288,7 +301,20 @@ describe('Profit for crop', () => {
         let crop = { crop: aubergine, numCrops: 10}
         expect(getProfitForCrop(crop)).toBe(0);
     });
+
+    test("Crop profits with environmental factors", () => {
+        let envFactors = {
+            sun: 'high',
+            soil: 'medium'
+        }
+        expect(getProfitForCrop(crop, envFactors)).toBe(115);
+    });
 })
+
+
+
+
+
 
 describe('Total profit for crop', () => {
 
