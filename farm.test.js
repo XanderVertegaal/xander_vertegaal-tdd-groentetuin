@@ -7,13 +7,54 @@ const { getYieldForPlant,
        getTotalProfit } = require("./farm");
 
 describe("getYieldForPlant", () => {
-    const corn = {
+    let corn = {
         name: "corn",
         yield: 30,
     };
 
     test("Get yield for plant with no environment factors", () => {
         expect(getYieldForPlant(corn)).toBe(30);
+    });
+
+    let aubergine = {
+        name: "aubergine",
+        yield: 30,
+        factors: {
+          sun: {
+            low: -50,
+            medium: 0,
+            high: 50,
+          },
+          wind: {
+            low: -20,
+            medium: 10,
+            high: 30
+          }
+        }
+      };
+
+    test("Yield for one plant with one relevant environmental factor", () => {
+        let environmentFactors = {
+            sun: "low"
+          };
+        expect(getYieldForPlant(aubergine, environmentFactors)).toBe(15);
+    });
+
+    test("Yield for one plant with multiple relevant environmental factors", () => {
+        let environmentFactors = {
+            sun: "low",
+            wind: "high"
+          };
+        expect(getYieldForPlant(aubergine, environmentFactors)).toBeCloseTo(19.5);
+    });
+
+    test("Yield for one plant with relevant and irrelevant environmental factors", () => {
+        let environmentFactors = {
+            sun: "low",
+            wind: "high",
+            soil: "medium"
+          };
+        expect(getYieldForPlant(aubergine, environmentFactors)).toBeCloseTo(19.5);
     });
 });
 

@@ -1,6 +1,20 @@
-
-const getYieldForPlant = (plant) => {
-    return plant.yield;
+const getYieldForPlant = (plant, envFactors = {nochange: 0}) => {
+    let factorArray = []
+    let yieldFactor = 1
+    
+    if (plant.factors) {
+        for (let factor in envFactors) {
+            let factorValue = envFactors[factor]
+            if (factor in plant.factors) {
+                factorArray.push(plant.factors[factor][factorValue])
+            }
+        }
+        yieldFactor = factorArray.reduce((total, current) => (total * (current / 100 + 1)), 1);
+        return plant.yield * yieldFactor;
+    }
+    else {
+        return plant.yield;
+    }
 }
 
 const getYieldForCrop = (crop) => {
@@ -55,40 +69,6 @@ const getRevenueForCrop = crop => {
 const getProfitForCrop = crop => {
     return getRevenueForCrop(crop) - getCostsForCrop(crop);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const aubergine = {
-    name: "aubergine",
-    yield: 5,
-    seedPrice: 3,
-    salePrice: 5
-};
-
-const corn = {
-    name: "corn",
-    yield: 3,
-    seedPrice: 2,
-    salePrice: 3
-};
-
-
-const crop = [
-    { crop: aubergine, numCrops: 10},
-    { crop: corn, numCrops: 20}
-];
 
 const getTotalProfit = cropArray => {
     let totalProfit = 0
