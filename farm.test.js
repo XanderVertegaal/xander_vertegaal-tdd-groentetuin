@@ -1,7 +1,8 @@
 const { getYieldForPlant, 
         getYieldForCrop, 
         getTotalYield,
-        getCostsForCrop } = require("./farm");
+        getCostsForCrop,
+       getRevenueForCrop } = require("./farm");
 
 describe("getYieldForPlant", () => {
     const corn = {
@@ -70,5 +71,22 @@ describe('Costs for crop', () => {
 
     test("Free seeds > zero costs", () => {
         expect(getCostsForCrop(0, crop)).toBe(0);
+    });
+})
+
+describe('Revenue for crop', () => {
+    const aubergine = {
+        name: "aubergine",
+        yield: 5,
+    };
+    const crop = { crop: aubergine, numCrops: 10}
+    const seedPrice = 3;
+
+    test("10 crops for 3 currency each equals 30", () => {
+        expect(getRevenueForCrop(seedPrice, crop)).toBe(30);
+    });
+
+    test("Free giveaway produce > zero revenue", () => {
+        expect(getRevenueForCrop(0, crop)).toBe(0);
     });
 })

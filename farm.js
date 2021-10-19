@@ -33,7 +33,7 @@ input: call as getTotalYield({crops}), for some reason.
 
 */
 
-const getTotalYield = (outerObjCrops) => {
+const getTotalYield = (outerObjCrops) => { // Argument is an array with crop objects; called as ({array})
     const arrCrops = outerObjCrops.crops    
     let totalYield = 0
     for (let crop of arrCrops) {
@@ -48,11 +48,14 @@ const getCostsForCrop = (seedPrice, crop) => {
     return seedPrice * crop.numCrops;
 }
 
-
+const getRevenueForCrop = (salePrice, crop) => {
+    return salePrice * crop.numCrops
+}
 
 module.exports = {
     getYieldForPlant, 
     getYieldForCrop, 
     getTotalYield,
-    getCostsForCrop
+    getCostsForCrop,
+    getRevenueForCrop
 }
