@@ -70,7 +70,70 @@ describe("getYieldForCrop", () => {
         };
         expect(getYieldForCrop(input)).toBe(30);
     });
+
+    let aubergine = {
+        name: "aubergine",
+        yield: 3,
+        factors: {
+          sun: {
+            low: -50,
+            medium: 0,
+            high: 50,
+          },
+          wind: {
+            low: -20,
+            medium: 10,
+            high: 30
+          }
+        }
+      };
+
+    let input = { 
+        crop: aubergine,
+        numCrops: 10
+    }
+
+    test("Yield for one crop with one relevant environmental factor", () => {
+        let environmentFactors = {
+            sun: "low"
+          };
+        expect(getYieldForCrop(input, environmentFactors)).toBe(15);
+    });
+
+    test("Yield for one crop with multiple relevant environmental factors", () => {
+        let environmentFactors = {
+            sun: "low",
+            wind: "high"
+          };
+        expect(getYieldForCrop(input, environmentFactors)).toBeCloseTo(19.5);
+    });
+
+    test("Yield for one crop with relevant and irrelevant environmental factors", () => {
+        let environmentFactors = {
+            sun: "low",
+            wind: "high",
+            soil: "medium"
+          };
+        expect(getYieldForCrop(input, environmentFactors)).toBeCloseTo(19.5);
+    });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 describe("getTotalYield", () => {
     test("Calculate total yield with multiple crops", () => {

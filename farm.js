@@ -6,10 +6,13 @@ const getYieldForPlant = (plant, envFactors = {nochange: 0}) => {
         for (let factor in envFactors) {
             let factorValue = envFactors[factor]
             if (factor in plant.factors) {
+                console.log('Factor value found!', plant.factors[factor][factorValue])
                 factorArray.push(plant.factors[factor][factorValue])
             }
         }
+        console.log('FactorArray:', factorArray)
         yieldFactor = factorArray.reduce((total, current) => (total * (current / 100 + 1)), 1);
+        console.log('YieldFactor:', yieldFactor)
         return plant.yield * yieldFactor;
     }
     else {
@@ -17,8 +20,9 @@ const getYieldForPlant = (plant, envFactors = {nochange: 0}) => {
     }
 }
 
-const getYieldForCrop = (crop) => {
-    return crop.numCrops * crop.crop.yield;
+
+const getYieldForCrop = (cropGroup, environmentFactors) => {
+    return cropGroup.numCrops * getYieldForPlant(cropGroup.crop, environmentFactors);
 }
 
 /*
