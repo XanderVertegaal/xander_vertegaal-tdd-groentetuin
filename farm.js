@@ -43,10 +43,10 @@ const getProfitForCrop = (crop, envFactors) => {
     return getRevenueForCrop(crop, envFactors) - getCostsForCrop(crop);
 }
 
-const getTotalProfit = cropArray => {
+const getTotalProfit = (cropArray, envFactors) => {
     let totalProfit = 0
     for (let crop of cropArray) {
-        totalProfit += getProfitForCrop(crop);
+        totalProfit += getProfitForCrop(crop, envFactors);
     }
     return totalProfit;
 }

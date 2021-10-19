@@ -311,33 +311,58 @@ describe('Profit for crop', () => {
     });
 })
 
-
-
-
-
-
 describe('Total profit for crop', () => {
+    const aubergine = {
+        name: "aubergine",
+        yield: 5,
+        seedPrice: 3,
+        salePrice: 5,
+        factors: {
+            sun: {
+              low: -50,
+              medium: 0,
+              high: 50,
+            },
+            wind: {
+              low: -20,
+              medium: 10,
+              high: 30
+            }
+          }
+    };
 
+    const mango = {
+        name: "mango",
+        yield: 2,           
+        seedPrice: 2,
+        salePrice: 4,
+        factors: {
+            wind: {
+              low: -20,
+              medium: 10,
+              high: 30,
+            },
+            soil: {
+              low: -10,
+              medium: 0,
+              high: 40
+            }
+          }
+    };
+
+    const crop = [
+        { crop: aubergine, numCrops: 10},
+        { crop: mango, numCrops: 20}
+    ];
     test("Two crops, no environmental factors", () => {
-        const aubergine = {
-            name: "aubergine",
-            yield: 5,
-            seedPrice: 3,
-            salePrice: 5
-        };
-
-        const corn = {
-            name: "corn",
-            yield: 3,
-            seedPrice: 2,
-            salePrice: 3
-        };
-
-        const crop = [
-            { crop: aubergine, numCrops: 10},
-            { crop: corn, numCrops: 20}
-        ];
-
-        expect(getTotalProfit(crop)).toBe(40)
+        expect(getTotalProfit(crop)).toBe(340)
     })
+
+    test("Multiple crops with environmental factors", () => {
+        let envFactors = {
+            sun: 'high',
+            soil: 'medium'
+        }
+        expect(getTotalProfit(crop, envFactors)).toBe(465)
+    });
 });
