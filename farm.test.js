@@ -118,23 +118,6 @@ describe("getYieldForCrop", () => {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 describe("getTotalYield", () => {
     test("Calculate total yield with multiple crops", () => {
         const corn = {
@@ -159,6 +142,45 @@ describe("getTotalYield", () => {
         };
         const crops = [{ crop: corn, numCrops: 0 }];
         expect(getTotalYield({ crops })).toBe(0);
+    });
+
+    test("Calculate total yield with environmental factors", () => {
+        const corn = {
+            name: "corn",
+            yield: 3,
+            factors: {
+                sun: {
+                    low: -10,
+                    medium: 20,
+                    high: 30
+                }
+            }
+        };
+
+        const pumpkin = {
+            name: "pumpkin",
+            yield: 4,
+            factors: {
+                soil: {
+                    low: -20,
+                    medium: 10,
+                    high: 10
+                }
+            }
+        };
+
+        const crops = [
+            { crop: corn, numCrops: 5 }, // 13,5
+            { crop: pumpkin, numCrops: 2 }, // 8,8
+        ];
+    
+
+        let environmentFactors = {
+            sun: "low",
+            wind: "high",
+            soil: "medium"
+          };
+        expect(getTotalYield({crops}, environmentFactors)).toBeCloseTo(22.3)
     });
 });
 
