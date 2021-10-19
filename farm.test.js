@@ -3,7 +3,8 @@ const { getYieldForPlant,
         getTotalYield,
         getCostsForCrop,
        getRevenueForCrop,
-       getProfitForCrop } = require("./farm");
+       getProfitForCrop,
+       getTotalProfit } = require("./farm");
 
 describe("getYieldForPlant", () => {
     const corn = {
@@ -59,54 +60,99 @@ describe("getTotalYield", () => {
 
 
 describe('Costs for crop', () => {
-    const corn = {
+    let corn = {
         name: "corn",
         yield: 3,
+        seedPrice: 2
     };
-    const crop = { crop: corn, numCrops: 10}
-    const seedPrice = 2;
+    let crop = { crop: corn, numCrops: 10}
 
     test("10 crops for 2 currency each equals 20", () => {
-        expect(getCostsForCrop(seedPrice, crop)).toBe(20);
+        expect(getCostsForCrop(crop)).toBe(20);
     });
 
     test("Free seeds > zero costs", () => {
-        expect(getCostsForCrop(0, crop)).toBe(0);
+        let corn = {
+            name: "corn",
+            yield: 3,
+            seedPrice: 0
+        };
+
+        let crop = { crop: corn, numCrops: 10}
+        expect(getCostsForCrop(crop)).toBe(0);
     });
 })
 
 describe('Revenue for crop', () => {
-    const aubergine = {
-        name: "aubergine",
-        yield: 5,
-    };
-    const crop = { crop: aubergine, numCrops: 10}
-    const salePrice = 3;
-
     test("10 crops for 3 currency each equals 30", () => {
-        expect(getRevenueForCrop(salePrice, crop)).toBe(30);
+        let aubergine = {
+            name: "aubergine",
+            yield: 5,
+            salePrice: 3
+        };
+        let crop = { crop: aubergine, numCrops: 10}
+        expect(getRevenueForCrop(crop)).toBe(30);
     });
 
     test("Free giveaway produce > zero revenue", () => {
-        expect(getRevenueForCrop(0, crop)).toBe(0);
+        let aubergine = {
+            name: "aubergine",
+            yield: 0,
+            salePrice: 0
+        };
+        let crop = { crop: aubergine, numCrops: 10}
+        expect(getRevenueForCrop(crop)).toBe(0);
     });
 })
 
 describe('Profit for crop', () => {
-    const aubergine = {
+    let aubergine = {
         name: "aubergine",
         yield: 5,
+        seedPrice: 2,
+        salePrice: 3
     };
-    const crop = { crop: aubergine, numCrops: 10}
-    
-    const seedPrice = 2;
-    const salePrice = 3;
+
+    let crop = { crop: aubergine, numCrops: 10}
 
     test("30 revenue and 20 loss > 10 profit", () => {
-        expect(getProfitForCrop(seedPrice, salePrice, crop)).toBe(10);
+        expect(getProfitForCrop(crop)).toBe(10);
     });
 
     test("Free seeds, free crops > no loss or profit", () => {
-        expect(getProfitForCrop(0, 0, crop)).toBe(0);
+        let aubergine = {
+            name: "aubergine",
+            yield: 5,
+            seedPrice: 0,
+            salePrice: 0
+        };
+        let crop = { crop: aubergine, numCrops: 10}
+        expect(getProfitForCrop(crop)).toBe(0);
     });
 })
+
+describe('Total profit for crop', () => {
+
+    test("Two crops, no environmental factors", () => {
+        const aubergine = {
+            name: "aubergine",
+            yield: 5,
+            seedPrice: 3,
+            salePrice: 5
+        };
+
+        const corn = {
+            name: "corn",
+            yield: 3,
+            seedPrice: 2,
+            salePrice: 3
+        };
+
+        const crop = [
+            { crop: aubergine, numCrops: 10},
+            { crop: corn, numCrops: 20}
+        ];
+
+        expect(getTotalProfit(crop)).toBe(40)
+    })
+});

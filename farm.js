@@ -44,16 +44,58 @@ const getTotalYield = (outerObjCrops) => { // Argument is an array with crop obj
 
 // console.log(getTotalYield({crops}));
 
-const getCostsForCrop = (seedPrice, crop) => {
-    return seedPrice * crop.numCrops;
+const getCostsForCrop = crop => {
+    return crop.crop.seedPrice * crop.numCrops;
 }
 
-const getRevenueForCrop = (salePrice, crop) => {
-    return salePrice * crop.numCrops
+const getRevenueForCrop = crop => {
+    return crop.crop.salePrice * crop.numCrops;
 }
 
-const getProfitForCrop = (seedPrice, salePrice, crop) => {
-    return getRevenueForCrop(salePrice, crop) - getCostsForCrop(seedPrice, crop);
+const getProfitForCrop = crop => {
+    return getRevenueForCrop(crop) - getCostsForCrop(crop);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const aubergine = {
+    name: "aubergine",
+    yield: 5,
+    seedPrice: 3,
+    salePrice: 5
+};
+
+const corn = {
+    name: "corn",
+    yield: 3,
+    seedPrice: 2,
+    salePrice: 3
+};
+
+
+const crop = [
+    { crop: aubergine, numCrops: 10},
+    { crop: corn, numCrops: 20}
+];
+
+const getTotalProfit = cropArray => {
+    let totalProfit = 0
+    for (let crop of cropArray) {
+        totalProfit += getProfitForCrop(crop);
+    }
+    return totalProfit;
 }
 
 module.exports = {
@@ -62,5 +104,6 @@ module.exports = {
     getTotalYield,
     getCostsForCrop,
     getRevenueForCrop,
-    getProfitForCrop
+    getProfitForCrop,
+    getTotalProfit
 }
