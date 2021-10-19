@@ -210,14 +210,14 @@ describe('Costs for crop', () => {
 })
 
 describe('Revenue for crop', () => {
-    test("10 crops for 3 currency each equals 30", () => {
+    test("10 crops for 3 currency with 5 yield each equals 150", () => {
         let aubergine = {
             name: "aubergine",
             yield: 5,
             salePrice: 3
         };
         let crop = { crop: aubergine, numCrops: 10}
-        expect(getRevenueForCrop(crop)).toBe(30);
+        expect(getRevenueForCrop(crop)).toBe(150);
     });
 
     test("Free giveaway produce > zero revenue", () => {
@@ -229,6 +229,39 @@ describe('Revenue for crop', () => {
         let crop = { crop: aubergine, numCrops: 10}
         expect(getRevenueForCrop(crop)).toBe(0);
     });
+
+    test("Revenue for crop with environmental factors", () => {
+        let aubergine = {
+            name: "aubergine",
+            yield: 3,
+            salePrice: 3,
+            factors: {
+              sun: {
+                low: -50,
+                medium: 0,
+                high: 50,
+              },
+              wind: {
+                low: -20,
+                medium: 10,
+                high: 30
+              }
+            }
+          };
+    
+        let crop = { 
+            crop: aubergine,
+            numCrops: 10
+        }
+
+        let environmentFactors = {
+            sun: 'high',
+            soil: 'medium'
+        }
+        expect(getRevenueForCrop(crop, environmentFactors)).toBe(135)
+    });
+
+
 })
 
 describe('Profit for crop', () => {

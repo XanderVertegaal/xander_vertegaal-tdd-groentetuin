@@ -31,14 +31,12 @@ const getTotalYield = (outerObjCrops, environmentFactors) => { // Argument is an
     return totalYield;
 }
 
-// console.log(getTotalYield({crops}));
-
 const getCostsForCrop = crop => {
     return crop.crop.seedPrice * crop.numCrops;
 }
 
-const getRevenueForCrop = crop => {
-    return crop.crop.salePrice * crop.numCrops;
+const getRevenueForCrop = (crop, environmentalFactors) => {
+    return crop.crop.salePrice * getYieldForCrop(crop, environmentalFactors);
 }
 
 const getProfitForCrop = crop => {
