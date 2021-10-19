@@ -7,23 +7,9 @@ const getYieldForCrop = (crop) => {
     return crop.numCrops * crop.crop.yield;
 }
 
-
-const corn = {
-    name: "corn",
-    yield: 3,
-};
-const pumpkin = {
-    name: "pumpkin",
-    yield: 4,
-};
-const crops = [
-    { crop: corn, numCrops: 5 },
-    { crop: pumpkin, numCrops: 2 },
-];
-
 /*
 
-input:
+input: call as getTotalYield({crops}), for some reason.
 
 { objCrops: {
     crops: [
@@ -58,9 +44,15 @@ const getTotalYield = (outerObjCrops) => {
 
 // console.log(getTotalYield({crops}));
 
+const getCostsForCrop = (seedPrice, crop) => {
+    return seedPrice * crop.numCrops;
+}
+
+
 
 module.exports = {
     getYieldForPlant, 
     getYieldForCrop, 
-    getTotalYield
+    getTotalYield,
+    getCostsForCrop
 }
